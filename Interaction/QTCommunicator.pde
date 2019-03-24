@@ -71,7 +71,7 @@ class QTCommunicator
 
 
 
-  // Interactive module calls this everysingle frame
+  // Interaction module calls this everysingle frame
   void update()
   {
     text("Received Value: "+pdValue, 10,20); // print receive value 
