@@ -8,7 +8,7 @@
 // , Visualization, send some data to sound module via OSC
 //
 // First create by John Lee. 23 Mar 2019
-//
+// and modified
 //
 /////////////////////////////////////////////////////////////////////////
 
