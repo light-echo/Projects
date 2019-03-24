@@ -27,7 +27,7 @@ class QTVisualizer
   }
   
   
-  // Interactive module calls this everysingle frame
+  // Interaction module calls this everysingle frame
   void update()
   {
     ;

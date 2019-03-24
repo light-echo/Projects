@@ -27,7 +27,7 @@ class QTCommunicator
       println("QTCommunicator received the position "+posX,","+posY);
   }
   
-  // Interactive module calls this everysingle frame
+  // Interaction module calls this everysingle frame
   void update()
   {
     ;
