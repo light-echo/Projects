@@ -3,7 +3,7 @@
 //
 // Hanna, please write your description of this module
 //
-//werwer
+//werwersdfsdfsd
 /////////////////////////////////////////////////////////////////////////
 
 class QTVisualizer
