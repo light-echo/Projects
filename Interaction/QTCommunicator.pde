@@ -20,7 +20,7 @@ class QTCommunicator
 
 
   //Constructor to set up OSC communication
-  QTcommunicator() {
+  QTCommunicator() {
     /* start oscP5, listening for incoming messages at port 12000 */
     oscP5 = new OscP5(this, 12000);
 
