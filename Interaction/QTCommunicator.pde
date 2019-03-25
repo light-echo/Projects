@@ -11,7 +11,7 @@
 import netP5.*;
 import oscP5.*;
 
-class QTCommunicator
+class QTcommunicator
 {
 
   OscP5 oscP5;
