@@ -25,10 +25,19 @@ class QTSensor
   
   void initDefaultData()
   {
-    angle = kinect.getTilt();
     
-    depthImg = new PImage(kinect.width, kinect.height);
-
+    if (SIMULATION_MODE == false)
+    {
+      angle = kinect.getTilt();
+    
+      depthImg = new PImage(kinect.width, kinect.height);
+    }
+    else
+    {
+      angle = 0;
+      depthImg = new PImage(width,height);
+    }
+      
     posX = 0;
     posY = 0;
 
@@ -89,13 +98,23 @@ class QTSensor
 
     fill(0, 255, 0);
 
-    traceMovement();
+    if (SIMULATION_MODE == false)
+    {
+      traceMovement();
 
-    image(depthImg, 0, 0);
-
-    ellipse(posX, posY, 50, 50);
+      image(depthImg, 0, 0);
+      
+      ellipse(posX, posY, 50, 50);
+    }
+    else
+    {
+      ellipse(mouseX,mouseY , 50,50);
+    }
 
     //image(kinect.getDepthImage(),0,0);
+    
+    stroke(255);
+    fill(255);
   }
 
   void keyPressed() 

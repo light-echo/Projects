@@ -42,10 +42,6 @@ void initDefaultData()
     kinect.initDepth();
     kinect.enableIR(true);  
     kinect.enableMirror(true);
-
-    mySensor = new QTSensor();
-    
-    mySensor.initDefaultData();
     
     SIMULATION_MODE = false;
   }
@@ -56,9 +52,11 @@ void initDefaultData()
     SIMULATION_MODE = true;
   }
   
+  mySensor = new QTSensor(); // even simulation mode , it's better to new QTSensor
   myVisualizer = new QTVisualizer();
   myCommunicator = new QTCommunicator();
   
+   mySensor.initDefaultData();
   myVisualizer.initDefaultData();
   myCommunicator.initDefaultData();
 }
@@ -67,11 +65,7 @@ void draw()
 {
   background(0);
   
-  if (SIMULATION_MODE == false)
-  {
-    mySensor.update();
-  }
-  
+  mySensor.update();
   myVisualizer.update();
   myCommunicator.update();
 }
