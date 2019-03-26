@@ -21,6 +21,12 @@ class QTCommunicator
 
   //Constructor to set up OSC communication
   QTCommunicator() {
+  }
+
+  void initDefaultData()
+  {
+    //set up for class 
+
     /* start oscP5, listening for incoming messages at port 12000 */
     oscP5 = new OscP5(this, 12000);
 
@@ -32,13 +38,7 @@ class QTCommunicator
      * and the port of the remote location address are the same, hence you will
      * send messages back to this sketch.
      */
-    myRemoteLocation = new NetAddress("127.0.0.1", 3107); //port 3107 
-  }
-
-  void initDefaultData()
-  {
-    //Whenever this class called by someone, this function called at the beginning. so, please
-    // write your initial code here.
+    myRemoteLocation = new NetAddress("127.0.0.1", 3107); //port 3107
   }
 
 
@@ -57,9 +57,9 @@ class QTCommunicator
     oscP5.send(myMessage, myRemoteLocation);     
     println("QTCommunicator received the position "+posX, ","+posY);
   }
-  
-  
- 
+
+
+
   // Received OSC message for instance by PD wit one value and prints the 
   // value and save it as integer 
   void oscEvent(OscMessage theOscMessage) {
@@ -74,6 +74,6 @@ class QTCommunicator
   // Interactive module calls this everysingle frame
   void update()
   {
-    text("Received Value: "+pdValue, 10,20); // print receive value 
+    text("Received Value: "+pdValue, 10, 20); // print receive value
   }
 }
