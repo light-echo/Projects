@@ -23,7 +23,7 @@ class QTVisualizer
   {
      // please impalement your visual effect here!
      
-     println("QTVisualizer received the position "+posX,","+posY);
+    // println("QTVisualizer received the position "+posX,","+posY);
   }
   
   
