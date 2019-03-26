@@ -8,8 +8,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 
-import netP5.*;
-import oscP5.*;
+
 
 class QTCommunicator
 {
@@ -39,6 +38,7 @@ class QTCommunicator
      * send messages back to this sketch.
      */
     myRemoteLocation = new NetAddress("127.0.0.1", 3107); //port 3107
+    println("its working");
   }
 
 
@@ -55,7 +55,7 @@ class QTCommunicator
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);     
-    println("QTCommunicator received the position "+posX, ","+posY);
+    //println("QTCommunicator received the position "+posX, ","+posY);
   }
 
 
@@ -67,6 +67,7 @@ class QTCommunicator
     print("### received an osc message.");
     print(theOscMessage.get(0).intValue()); //prints the value 
     pdValue = theOscMessage.get(0).intValue();
+   
   }
 
 

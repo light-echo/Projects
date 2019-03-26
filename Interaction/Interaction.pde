@@ -12,7 +12,8 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-
+import netP5.*;
+import oscP5.*;
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
 
@@ -64,6 +65,7 @@ void initDefaultData()
 
 void draw() 
 {
+  background(0);
   if (SIMULATION_MODE == false)
   {
     mySensor.update();
