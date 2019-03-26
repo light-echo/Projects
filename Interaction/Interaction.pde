@@ -66,6 +66,7 @@ void initDefaultData()
 void draw() 
 {
   background(0);
+  
   if (SIMULATION_MODE == false)
   {
     mySensor.update();
