@@ -14,7 +14,7 @@ class QTSensor
   PImage depthImg;
 
   int minDepth =  60;
-  int maxDepth = 850;
+  int maxDepth = 870;
 
   int posX, posY;
   int prevX, prevY;
@@ -65,18 +65,25 @@ class QTSensor
       {
         depthImg.pixels[i] = color(255);
 
-        if (rawDepth[i] < minData)
+        if (rawDepth[i] < minData && (i/640) < 380)
         {
           minData = rawDepth[i];
 
           newPosX = i % 640;
           newPosY = i/640;
+          
+          //println(newPosX, " , "+newPosY);
         }
       } else
       {
         depthImg.pixels[i] = color(0);
       }
     }
+    
+    newPosX = int(newPosX * screenRatio.x)+50;
+    newPosY = int(newPosY * screenRatio.y)+50;
+    
+    //println(screenRatio);
 
     depthImg.updatePixels();
 
@@ -84,7 +91,7 @@ class QTSensor
     speedY = (newPosY - posY) / 10.0;
 
     posX += speedX;
-    posY += speedY;
+    posY += speedY;    
   }
 
 
@@ -102,13 +109,19 @@ class QTSensor
     {
       traceMovement();
 
-      image(depthImg, 0, 0);
+      //image(depthImg, 0, 0);
       
-      ellipse(posX, posY, 50, 50);
+      if (posX > 50 && posY > 50)
+      {
+        myVisualizer.setPosition(posX,posY);
+        myCommunicator.setPosition(posX,posY);    
+        
+        //ellipse(posX, posY, 50, 50);
+      }
     }
     else
     {
-      ellipse(mouseX,mouseY , 50,50);
+      ;//ellipse(mouseX,mouseY , 50,50);
     }
 
     //image(kinect.getDepthImage(),0,0);
