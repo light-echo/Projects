@@ -24,7 +24,7 @@ class QTVisualizer
   void setPosition(int posX,int posY)
   {
      // please impalement your visual effect here!
-    origin = new PVector (random(posX-dist, posY+dist),random(posX-dist, posY+dist));
+    origin = new PVector (random(posX-dist, posX+dist),random(posY-dist, posY+dist));
     particles.add(new Particle(origin));
     // println("QTVisualizer received the position "+posX,","+posY);
   }
