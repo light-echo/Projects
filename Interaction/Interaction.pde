@@ -8,7 +8,7 @@
 // , Visualization, send some data to sound module via OSC
 //
 // First create by John Lee. 23 Mar 2019
-// Github test
+// First working version test. 28 Mar 2019
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -24,10 +24,17 @@ QTSensor mySensor;
 QTVisualizer myVisualizer;
 QTCommunicator myCommunicator;
 
+PVector screenRatio;  // this is a aspec ratio between kinect sensor and projector
+
 void setup() 
 {
-  size(640, 480);
-
+  
+  //fullScreen(P2D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+  
+  size(640, 480); // please use this code for testing on your PC . added by John. 28 Mar 2019
+  
+  println(width,height);
+  
   background(0);
 
   initDefaultData();
@@ -35,6 +42,10 @@ void setup()
 
 void initDefaultData()
 {
+  screenRatio = new PVector(1280 / 640.0 , 720 / 480.0);
+  
+  println(screenRatio);
+    
   kinect = new Kinect(this);
   
   if (kinect.numDevices() > 0)
@@ -56,7 +67,7 @@ void initDefaultData()
   myVisualizer = new QTVisualizer();
   myCommunicator = new QTCommunicator();
   
-   mySensor.initDefaultData();
+  mySensor.initDefaultData();
   myVisualizer.initDefaultData();
   myCommunicator.initDefaultData();
 }
