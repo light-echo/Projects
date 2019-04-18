@@ -5,7 +5,7 @@
 // I can use kinect, radar
 // First create by John Lee. 23 Mar 2019
 //
-//
+//[002] modify code to send position to use PVector
 /////////////////////////////////////////////////////////////////////////
 
 
@@ -14,17 +14,16 @@ class QTSensor
   PImage depthImg;
 
   int minDepth =  60;
-  int maxDepth = 870;
-
-  int posX, posY;
-  int prevX, prevY;
-
-  float speedX, speedY;
-
+  int maxDepth = 850;
   float angle;
+  
+  PVector curPosition;
+  PVector curSpeed;
   
   void initDefaultData()
   {
+    curPosition = new PVector(0,0,0);
+    curSpeed = new PVector(0,0,0);
     
     if (SIMULATION_MODE == false)
     {
@@ -37,25 +36,17 @@ class QTSensor
       angle = 0;
       depthImg = new PImage(width,height);
     }
-      
-    posX = 0;
-    posY = 0;
-
-    prevX = 0;
-    prevY = 0;
-
-    speedX = 0;
-    speedY = 0;
   }
     
   void traceMovement()
   {
     int[] rawDepth;
-    int newPosX, newPosY;
+    int newPosX, newPosY,newPosZ;
     int minData = 5000;
 
     newPosX = 0;
     newPosY = 0;
+    newPosZ = 0;
 
     rawDepth = kinect.getRawDepth();
 
@@ -87,11 +78,11 @@ class QTSensor
 
     depthImg.updatePixels();
 
-    speedX = (newPosX - posX) / 10.0;
-    speedY = (newPosY - posY) / 10.0;
+    curSpeed.x = (newPosX - curPosition.x) / 10.0;
+    curSpeed.y = (newPosY - curPosition.y) / 10.0;
+    curSpeed.z = (newPosZ - curPosition.z) / 10.0;
 
-    posX += speedX;
-    posY += speedY;    
+    curPosition.add(curSpeed);
   }
 
 
@@ -111,13 +102,10 @@ class QTSensor
 
       //image(depthImg, 0, 0);
       
-      if (posX > 50 && posY > 50)
-      {
-        myVisualizer.setPosition(posX,posY);
-        myCommunicator.setPosition(posX,posY);    
-        
-        //ellipse(posX, posY, 50, 50);
-      }
+      ellipse(curPosition.x, curPosition.y, 50, 50);
+      
+      myVisualizer.setPosition(curPosition);
+      myCommunicator.setPosition(curPosition);
     }
     else
     {
