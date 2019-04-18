@@ -56,18 +56,25 @@ class QTSensor
       {
         depthImg.pixels[i] = color(255);
 
-        if (rawDepth[i] < minData)
+        if (rawDepth[i] < minData && (i/640) < 380)
         {
           minData = rawDepth[i];
 
           newPosX = i % 640;
           newPosY = i/640;
+          
+          //println(newPosX, " , "+newPosY);
         }
       } else
       {
         depthImg.pixels[i] = color(0);
       }
     }
+    
+    newPosX = int(newPosX * screenRatio.x)+50;
+    newPosY = int(newPosY * screenRatio.y)+50;
+    
+    //println(screenRatio);
 
     depthImg.updatePixels();
 
@@ -93,7 +100,7 @@ class QTSensor
     {
       traceMovement();
 
-      image(depthImg, 0, 0);
+      //image(depthImg, 0, 0);
       
       ellipse(curPosition.x, curPosition.y, 50, 50);
       
@@ -102,7 +109,7 @@ class QTSensor
     }
     else
     {
-      ellipse(mouseX,mouseY , 50,50);
+      ;//ellipse(mouseX,mouseY , 50,50);
     }
 
     //image(kinect.getDepthImage(),0,0);
