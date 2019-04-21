@@ -43,6 +43,13 @@ class QTVisualizer
     }
   }
   
+  
+  void setAmplitudes(float [] amplitudes){
+  //amplitudes array has four values coming from Olli 
+  //you can use them to change the particle tc. 
+    float amplitude1 = amplitudes[1]; //...and so on  
+  }
+  
 }
 
 // A simple Particle class
@@ -62,6 +69,8 @@ class Particle {
     lifespan = random(125.0, 255.0);
    // mass = 1;
   }
+
+
 
   void run() {
     update();

@@ -15,8 +15,17 @@ class QTCommunicator
 
   OscP5 oscP5;
   NetAddress myRemoteLocation;
-  int pdValue; 
+  //float amplitude1 = 0;
+  //float amplitude2 = 0;
+  //float amplitude3 = 0;
+  //float amplitude4 = 0;
 
+  float A1 = 0;
+  float A2 = 0;
+  float A3 = 0;
+  float A4 = 0;
+
+  float smooth_factor = 0.05;
 
   //Constructor to set up OSC communication
   QTCommunicator() {
@@ -25,7 +34,6 @@ class QTCommunicator
   void initDefaultData()
   {
     //set up for class 
-
     /* start oscP5, listening for incoming messages at port 12000 */
     oscP5 = new OscP5(this, 12000);
 
@@ -44,14 +52,15 @@ class QTCommunicator
 
   // QTSensor calls every single time whenever the position changed
   // Position are sent via OSC 
-  void setPosition(int posX, int posY)
-
+  void setPosition(PVector pos)
   {
     /* in the following different ways of creating osc messages are shown by example */
-    OscMessage myMessage = new OscMessage("/xy");
+    OscMessage myMessage = new OscMessage("/xyz");
 
-    myMessage.add(posX); /* add an int to the osc message */
-    myMessage.add(posY); /* add an int to the osc message */
+    myMessage.add(pos.x); /* add an int to the osc message */
+    myMessage.add(pos.y); /* add an int to the osc message */
+    myMessage.add(pos.z); /* add an int to the osc message */
+
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);     
@@ -65,16 +74,38 @@ class QTCommunicator
   void oscEvent(OscMessage theOscMessage) {
     /* print the address pattern and the typetag of the received OscMessage */
     print("### received an osc message.");
-    print(theOscMessage.get(0).intValue()); //prints the value 
-    pdValue = theOscMessage.get(0).intValue();
-   
+    if (theOscMessage.checkAddrPattern("/amp")==true)
+    {
+      float amplitude1 = theOscMessage.get(0).floatValue();
+      //add these to wherever the visuals are being generated
+      A1 += (amplitude1 - A1) * smooth_factor;
+    }
+    if (theOscMessage.checkAddrPattern("/amp2")==true)
+    {
+      float amplitude2 = theOscMessage.get(0).floatValue();
+      A2 += (amplitude2 - A2) * smooth_factor;
+    }
+    if (theOscMessage.checkAddrPattern("/amp3")==true)
+    {
+      float amplitude3 = theOscMessage.get(0).floatValue();
+      A3 += (amplitude3 - A3) * smooth_factor;
+    }
+    if (theOscMessage.checkAddrPattern("/amp4")==true)
+    {
+      float amplitude4 = theOscMessage.get(0).floatValue();
+      A4 += (amplitude4 - A4) * smooth_factor;
+    }
   }
 
-
+  float[] getAmplitudes() {
+    float[] tmp =  {A1, A2, A3, A4}; 
+    return tmp;
+  }
+  
 
   // Interactive module calls this everysingle frame
   void update()
   {
-    text("Received Value: "+pdValue, 10, 20); // print receive value
+    text("Received Value: "+A1+A2+A3+A4, 10, 20); // print receive value
   }
 }
