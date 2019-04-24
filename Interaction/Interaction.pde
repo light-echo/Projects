@@ -29,9 +29,15 @@ QTSensor mySensor;
 QTVisualizer myVisualizer;
 QTCommunicator myCommunicator;
 
+PVector screenRatio;  // this is a aspec ratio between kinect sensor and projector
+
 void setup() 
 {
-  size(640, 480);
+  //fullScreen(P2D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+
+  size(640, 480); // please use this code for testing on your PC . added by John. 28 Mar 2019
+
+  println(width, height);
 
   background(0);
 
@@ -43,6 +49,10 @@ void initDefaultData()
   dummyPosition = new PVector(0, 0, 0);
   dummyPosZ = 0;
   dummyDirection = 1;
+
+  screenRatio = new PVector(1280 / 640.0, 720 / 480.0);
+
+  println(screenRatio);
 
   kinect = new Kinect(this);
 
@@ -76,35 +86,44 @@ void simulatePosition()
   if (dummyPosZ <= 0)
   {
     dummyPosZ = 0;
-    
+
     simulatePosZ = false;
   }
 
   if (dummyPosZ >= MAX_POSZ)
   {
     dummyPosZ = MAX_POSZ;
-    
+
     simulatePosZ = false;
   }
-  
+
   sendDummyPosition();
 }
 
 void sendDummyPosition()
 {
   dummyPosition.set(mouseX, mouseY, dummyPosZ);
-  
+
   myVisualizer.setPosition(dummyPosition);
   myCommunicator.setPosition(dummyPosition);
 }
 
 void draw() 
 {
+
+
   background(0);
+
+
+  //getting Amplitudes values from Olli
+  float[] amplitudes = myCommunicator.getAmplitudes();
+  //Function to send values 
+  myVisualizer.setAmplitudes(amplitudes);
 
   mySensor.update();
   myVisualizer.update();
   myCommunicator.update();
+
 
   if (SIMULATION_MODE == true && simulatePosZ == true)
   {
@@ -117,7 +136,7 @@ void mouseMoved()
   if (SIMULATION_MODE == true)
   {
     sendDummyPosition();
-    
+
     println("**");
   }
 }
