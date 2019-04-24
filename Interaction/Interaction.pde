@@ -8,7 +8,7 @@
 // , Visualization, send some data to sound module via OSC
 //
 // First create by John Lee. 23 Mar 2019
-// Github test
+// 
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +104,7 @@ void sendDummyPosition()
 {
   dummyPosition.set(mouseX, mouseY, dummyPosZ);
 
-  myVisualizer.setPosition(dummyPosition);
+ // myVisualizer.setPosition(dummyPosition);
   myCommunicator.setPosition(dummyPosition);
 }
 
@@ -136,8 +136,6 @@ void mouseMoved()
   if (SIMULATION_MODE == true)
   {
     sendDummyPosition();
-
-    println("**");
   }
 }
 

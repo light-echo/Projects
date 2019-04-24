@@ -6,6 +6,7 @@
 // First create by John Lee. 23 Mar 2019
 //
 //[002] modify code to send position to use PVector
+//[003] added transform function
 /////////////////////////////////////////////////////////////////////////
 
 
@@ -15,33 +16,55 @@ class QTSensor
 
   int minDepth =  60;
   int maxDepth = 850;
+
+  int kinectX1, kinectX2, kinectY1, kinectY2;
+  int prjX1, prjX2, prjY1, prjY2;
+
   float angle;
-  
+
   PVector curPosition;
   PVector curSpeed;
-  
+
   void initDefaultData()
-  {
-    curPosition = new PVector(0,0,0);
-    curSpeed = new PVector(0,0,0);
-    
+  {    
+    kinectX1 = 100;
+    kinectX2 = 300;
+    kinectY1 = 50;
+    kinectY2 = 300;
+
+    prjX1 = 200;
+    prjX2 = 600;
+    prjY1 = 100;
+    prjY2 = 700;
+
+    curPosition = new PVector(0, 0, 0);
+    curSpeed = new PVector(0, 0, 0);
+
     if (SIMULATION_MODE == false)
     {
       angle = kinect.getTilt();
-    
+
       depthImg = new PImage(kinect.width, kinect.height);
-    }
-    else
+    } else
     {
       angle = 0;
-      depthImg = new PImage(width,height);
+      depthImg = new PImage(width, height);
     }
   }
-    
+
+  float transform(float input, float A, float B, float C, float D)
+  {
+    float value;
+
+    value = C +((input-A) * (D-C)/(B-A));
+
+    return value;
+  }
+
   void traceMovement()
   {
     int[] rawDepth;
-    int newPosX, newPosY,newPosZ;
+    int newPosX, newPosY, newPosZ;
     int minData = 5000;
 
     newPosX = 0;
@@ -62,7 +85,7 @@ class QTSensor
 
           newPosX = i % 640;
           newPosY = i/640;
-          
+
           //println(newPosX, " , "+newPosY);
         }
       } else
@@ -70,10 +93,10 @@ class QTSensor
         depthImg.pixels[i] = color(0);
       }
     }
-    
+
     newPosX = int(newPosX * screenRatio.x)+50;
     newPosY = int(newPosY * screenRatio.y)+50;
-    
+
     //println(screenRatio);
 
     depthImg.updatePixels();
@@ -101,19 +124,21 @@ class QTSensor
       traceMovement();
 
       //image(depthImg, 0, 0);
-      
+
       ellipse(curPosition.x, curPosition.y, 50, 50);
-      
-      myVisualizer.setPosition(curPosition);
+
+      curPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
+      curPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
+
+     // myVisualizer.setPosition(curPosition);
       myCommunicator.setPosition(curPosition);
-    }
-    else
+    } else
     {
       ;//ellipse(mouseX,mouseY , 50,50);
     }
 
     //image(kinect.getDepthImage(),0,0);
-    
+
     stroke(255);
     fill(255);
   }
