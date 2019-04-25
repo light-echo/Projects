@@ -21,20 +21,24 @@ PImage depthImg;
 int minDepth = 870;
 int maxDepth = 950;
 
+PVector textPos;
+
 float angle;
 
 void setup()
 {
   //size(800,500,P2D);
-  
-  fullScreen(P2D,1);
-  
+
+  fullScreen(P2D, 2);
+
   background(0);
-  
+
   stroke(255);
-  
+
   noFill();
-  
+
+  textPos = new PVector(0, 0);
+
   initKinect();
 }
 
@@ -46,57 +50,73 @@ void initKinect()
 
   // Blank image
   depthImg = new PImage(kinect.width, kinect.height);
-  
-  println("Kinect resolution "+ kinect.width , kinect.height);
+
+  println("Kinect resolution "+ kinect.width, kinect.height);
 }
 
-float transform(float input, float A,float B,float C, float D)
+float transform(float input, float A, float B, float C, float D)
 {
   float value;
-  
+
   value = C +((input-A) * (D-C)/(B-A));
-  
+
   return value;
 }
 
 void draw()
 {
   background(0);
-  
+
   // Draw the raw image
   image(kinect.getDepthImage(), 200, 200);
-     
-     
+
+
   textSize(25);
   fill(255);
-  text(mouseX,mouseX+20,mouseY-20);
-  text(mouseY,mouseX+80,mouseY-20);
+
+  fill(255, 0, 0); // kinect
+  text("k:",        textPos.x, textPos.y+20);
+  text(mouseX-200, textPos.x+30, textPos.y+20);
+  text(mouseY-200, textPos.x+110, textPos.y+20);
   
-  fill(255,0,0); // kinect
-  text(mouseX-200,mouseX+20,mouseY+20);
-  text(mouseY-200,mouseX+80,mouseY+20);
-  
-  fill(255);
-  text((int)transform(mouseX-200,180,400,390,660) , 50,50); // first two values are kinect position
-  text((int)transform(mouseY-200,110,420,290,620) , 120,50); 
-  
+  text("p:",        textPos.x, textPos.y+50);
+  text(mouseX, textPos.x+30, textPos.y+50);
+  text(mouseY, textPos.x+110, textPos.y+50);
+
+  text((int)transform(mouseX-200, 180, 400, 390, 660), textPos.x+30, textPos.y-50); // first two values are kinect position
+  text((int)transform(mouseY-200, 110, 420, 290, 620), textPos.x+110, textPos.y-50); 
+
   noFill();
-  ellipse(mouseX,mouseY,20,20);
+  //fill(0, 0, 255);
   
+  strokeWeight(2);
+  stroke(0,0,255);
+  
+  line(mouseX,mouseY-20,mouseX,mouseY+20);
+  line(mouseX-20,mouseY,mouseX+20,mouseY);
+
+
   noFill();
   strokeWeight(3);
-  rect(190+200,110+200,400-180,420-110);
-  
+  //rect(190+200,110+200,400-180,420-110);
+
+
+
   strokeWeight(1);
 }
 
-void keyPressed() {
-  if (key == CODED) {
-    if (keyCode == UP) {
+void keyPressed() 
+{
+  if (key == CODED) 
+  {
+    if (keyCode == UP) 
+    {
       angle++;
-    } else if (keyCode == DOWN) {
+    } else if (keyCode == DOWN) 
+    {
       angle--;
     }
+
     angle = constrain(angle, 0, 30);
     kinect.setTilt(angle);
   } else if (key == 'a') {
@@ -107,5 +127,9 @@ void keyPressed() {
     maxDepth = constrain(maxDepth+10, minDepth, 2047);
   } else if (key =='x') {
     maxDepth = constrain(maxDepth-10, minDepth, 2047);
+  }
+  
+  if (key == 'f'){
+    textPos.set(mouseX,mouseY);
   }
 }

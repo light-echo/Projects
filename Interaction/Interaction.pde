@@ -27,6 +27,7 @@ int MAX_POSZ = 100; // [002] added by John.
 Kinect kinect;
 QTSensor mySensor;
 QTVisualizer myVisualizer;
+QTVisualizer2 myVisualizer_2;
 QTCommunicator myCommunicator;
 
 PVector screenRatio;  // this is a aspec ratio between kinect sensor and projector
@@ -72,10 +73,12 @@ void initDefaultData()
 
   mySensor = new QTSensor(); // even simulation mode , it's better to new QTSensor
   myVisualizer = new QTVisualizer();
+  myVisualizer_2 = new QTVisualizer2();
   myCommunicator = new QTCommunicator();
 
   mySensor.initDefaultData();
   myVisualizer.initDefaultData();
+  myVisualizer_2.initDefaultData();
   myCommunicator.initDefaultData();
 }
 
@@ -128,9 +131,7 @@ void draw()
   
   fill(255,0,0);
  
-  //rect(200,100,650,450);
-  
-  //rect(230,200,620,520);
+  //rect(230,160,660,520);
 }
 
 void mouseMoved()
