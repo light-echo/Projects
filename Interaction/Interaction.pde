@@ -33,9 +33,9 @@ PVector screenRatio;  // this is a aspec ratio between kinect sensor and project
 
 void setup() 
 {
-  //fullScreen(P2D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+  fullScreen(P2D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
 
-  size(640, 480); // please use this code for testing on your PC . added by John. 28 Mar 2019
+  //size(640, 480); // please use this code for testing on your PC . added by John. 28 Mar 2019
 
   println(width, height);
 
@@ -110,11 +110,8 @@ void sendDummyPosition()
 
 void draw() 
 {
-
-
   background(0);
-
-
+  
   //getting Amplitudes values from Olli
   float[] amplitudes = myCommunicator.getAmplitudes();
   //Function to send values 
@@ -124,11 +121,16 @@ void draw()
   myVisualizer.update();
   myCommunicator.update();
 
-
   if (SIMULATION_MODE == true && simulatePosZ == true)
   {
     simulatePosition();
   }
+  
+  fill(255,0,0);
+ 
+  //rect(200,100,650,450);
+  
+  //rect(230,200,620,520);
 }
 
 void mouseMoved()

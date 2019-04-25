@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////
 //
-//
 // This class is for sensing the position of where people touch and drag
 // I can use kinect, radar
 // First create by John Lee. 23 Mar 2019
 //
 //[002] modify code to send position to use PVector
 //[003] added transform function
+//
 /////////////////////////////////////////////////////////////////////////
 
 
@@ -14,8 +14,8 @@ class QTSensor
 {
   PImage depthImg;
 
-  int minDepth =  60;
-  int maxDepth = 850;
+  int minDepth =  80;
+  int maxDepth = 950;
 
   int kinectX1, kinectX2, kinectY1, kinectY2;
   int prjX1, prjX2, prjY1, prjY2;
@@ -24,21 +24,23 @@ class QTSensor
 
   PVector curPosition;
   PVector curSpeed;
+  PVector transformedPosition;
 
   void initDefaultData()
   {    
-    kinectX1 = 100;
-    kinectX2 = 300;
-    kinectY1 = 50;
-    kinectY2 = 300;
+    kinectX1 = 210;
+    kinectX2 = 400;
+    kinectY1 = 130;
+    kinectY2 = 290;
 
-    prjX1 = 200;
-    prjX2 = 600;
-    prjY1 = 100;
-    prjY2 = 700;
+    prjX1 = 230;
+    prjX2 = 760;
+    prjY1 = 200;
+    prjY2 = 720;
 
     curPosition = new PVector(0, 0, 0);
     curSpeed = new PVector(0, 0, 0);
+    transformedPosition = new PVector(0,0,0);
 
     if (SIMULATION_MODE == false)
     {
@@ -65,6 +67,7 @@ class QTSensor
   {
     int[] rawDepth;
     int newPosX, newPosY, newPosZ;
+    int posX, posY;
     int minData = 5000;
 
     newPosX = 0;
@@ -75,28 +78,40 @@ class QTSensor
 
     for (int i=0; i < rawDepth.length; i++)
     {
-      if (rawDepth[i] >= minDepth && rawDepth[i] <= maxDepth) 
-      {
-        depthImg.pixels[i] = color(255);
+      posX = (i % 640);
+      posY = (i / 640);
 
-        if (rawDepth[i] < minData && (i/640) < 380)
+      if (posX > 210 && posX < 400 && posY > 130 && posY < 290)
+      {
+        //depthImg.pixels[i] = color(255);
+        
+        //println(newPosX, " , "+newPosY+ " "+rawDepth[i]);
+        
+        if (rawDepth[i] >= minDepth && rawDepth[i] <= maxDepth) 
         {
-          minData = rawDepth[i];
+           depthImg.pixels[i] = color(255);
 
-          newPosX = i % 640;
-          newPosY = i/640;
+          if (rawDepth[i] < minData)
+          {
+            minData = rawDepth[i];
 
-          //println(newPosX, " , "+newPosY);
+            newPosX = i % 640;
+            newPosY = i/640;
+
+            //println(newPosX, " , "+newPosY);
+          }
+        } else
+        {
+          //depthImg.pixels[i] = color(0);
         }
-      } else
-      {
-        depthImg.pixels[i] = color(0);
+      }else{
+        ;//depthImg.pixels[i] = color(0);
       }
     }
-
-    newPosX = int(newPosX * screenRatio.x)+50;
-    newPosY = int(newPosY * screenRatio.y)+50;
-
+    
+    newPosX = int(newPosX);// * screenRatio.x)-70;
+    newPosY = int(newPosY);// * screenRatio.y)+200;
+    
     //println(screenRatio);
 
     depthImg.updatePixels();
@@ -107,7 +122,6 @@ class QTSensor
 
     curPosition.add(curSpeed);
   }
-
 
   void update() 
   {
@@ -121,26 +135,26 @@ class QTSensor
 
     if (SIMULATION_MODE == false)
     {
-      traceMovement();
+       traceMovement();
 
-      //image(depthImg, 0, 0);
-
-      ellipse(curPosition.x, curPosition.y, 50, 50);
-
-      curPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
-      curPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
-
-     // myVisualizer.setPosition(curPosition);
-      myCommunicator.setPosition(curPosition);
+       transformedPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
+       transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
+       
+       ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
+       
+       myVisualizer.setPosition(curPosition);
+       myCommunicator.setPosition(transformedPosition);
     } else
     {
-      ;//ellipse(mouseX,mouseY , 50,50);
+       ;//ellipse(mouseX,mouseY , 50,50);
     }
 
     //image(kinect.getDepthImage(),0,0);
 
     stroke(255);
     fill(255);
+    
+    text("test",300,300);
   }
 
   void keyPressed() 

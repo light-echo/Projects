@@ -18,8 +18,8 @@ Kinect kinect;
 // Depth image
 PImage depthImg;
 
-int minDepth =  60;
-int maxDepth = 880;
+int minDepth = 870;
+int maxDepth = 950;
 
 float angle;
 
@@ -27,7 +27,7 @@ void setup()
 {
   //size(800,500,P2D);
   
-  fullScreen(P2D);
+  fullScreen(P2D,1);
   
   background(0);
   
@@ -77,15 +77,15 @@ void draw()
   text(mouseY-200,mouseX+80,mouseY+20);
   
   fill(255);
-  text((int)transform(mouseX-200,190,460,390,660) , 50,50); // first two values are kinect position
-  text((int)transform(mouseY-200,90,420,290,620) , 120,50); 
+  text((int)transform(mouseX-200,180,400,390,660) , 50,50); // first two values are kinect position
+  text((int)transform(mouseY-200,110,420,290,620) , 120,50); 
   
   noFill();
   ellipse(mouseX,mouseY,20,20);
   
   noFill();
   strokeWeight(3);
-  rect(390,290,660-390,620-290);
+  rect(190+200,110+200,400-180,420-110);
   
   strokeWeight(1);
 }
