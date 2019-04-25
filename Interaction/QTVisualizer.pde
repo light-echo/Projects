@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 // Visualization class  for Korea project
 // Creates an arraylist of particles that follows x and y pos
 // Hanna Thenor Årström
@@ -21,10 +21,11 @@ class QTVisualizer
   } 
   
   // QTSensor calls every single time whenever the position changed
-  void setPosition(int posX,int posY)
+  void setPosition(PVector pos)
   {
+    
      // please impalement your visual effect here!
-    origin = new PVector (random(posX-dist, posX+dist),random(posY-dist, posY+dist));
+    origin = new PVector (random(pos.x-dist, pos.x+dist),random(pos.y-dist, pos.y+dist));
     particles.add(new Particle(origin));
     // println("QTVisualizer received the position "+posX,","+posY);
   }
