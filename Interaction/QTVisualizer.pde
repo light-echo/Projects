@@ -36,6 +36,8 @@ class QTVisualizer
   {  
     for (int i = particles.size()-1; i >= 0; i--) {
       Particle p = particles.get(i);
+      
+      p.tempColor = color(random(128,255),random(128,255),random(128,255));;
      
       p.run();
       if (p.isDead()) {
@@ -60,6 +62,7 @@ class Particle {
   PVector velocity;
   PVector acceleration;
   float lifespan;
+  color tempColor;
   //float mass;
   
 
@@ -94,8 +97,13 @@ class Particle {
   // Method to display
   void display() {
     stroke(255, lifespan);
-    fill(255, lifespan);
-    ellipse(position.x, position.y, 15, 15);
+   // fill(255, lifespan);
+   
+   noStroke();
+    
+    fill(random(0,255),random(0,255),random(0,255), lifespan);
+    
+    ellipse(position.x, position.y, 15*3, 15*3);
   }
 
   // Is the particle still useful?

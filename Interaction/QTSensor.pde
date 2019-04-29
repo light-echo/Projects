@@ -14,8 +14,8 @@ class QTSensor
 {
   PImage depthImg;
 
-  int minDepth =  800;
-  int maxDepth = 950;
+  int minDepth =  840;
+  int maxDepth = 880;
 
   int kinectX1, kinectX2, kinectY1, kinectY2;
   int prjX1, prjX2, prjY1, prjY2;
@@ -28,15 +28,27 @@ class QTSensor
 
   void initDefaultData()
   {    
-    kinectX1 = 207;
+    
+    /*
+    kinectX1 = 228;
     kinectY1 = 110;
-    kinectX2 = 440;
+    kinectX2 = 464;
     kinectY2 = 290;
 
-    prjX1 = 270;
+    prjX1 = 231;
     prjY1 = 205;
-    prjX2 = 910;
-    prjY2 = 700;
+    prjX2 = 858;
+    prjY2 = 700;*/
+    
+    kinectX1 = 190;
+    kinectY1 = 130;
+    kinectX2 = 430;
+    kinectY2 = 290;
+
+    prjX1 = 150;
+    prjY1 = 70;
+    prjX2 = 1500;
+    prjY2 = 1080;
 
     curPosition = new PVector(0, 0, 0);
     curSpeed = new PVector(0, 0, 0);
@@ -81,9 +93,9 @@ class QTSensor
       posX = (i % 640);
       posY = (i / 640);
 
-      if (posX > 210 && posX < 400 && posY > 130 && posY < 290)
+      if (posX > kinectX1 && posX < kinectX2 && posY > kinectY1 && posY < kinectY2)
       {
-        //depthImg.pixels[i] = color(255);
+         depthImg.pixels[i] = color(255);
         
         //println(newPosX, " , "+newPosY+ " "+rawDepth[i]);
         
@@ -98,16 +110,12 @@ class QTSensor
             newPosX = i % 640;
             newPosY = i/640;
 
-            //println(newPosX, " , "+newPosY);
+           // println(newPosX, " , "+minData);
           }
-        } else
-        {
-          //depthImg.pixels[i] = color(0);
-        }
-      }else{
-        ;//depthImg.pixels[i] = color(0);
+        } 
       }
     }
+    
     
     newPosX = int(newPosX);// * screenRatio.x)-70;
     newPosY = int(newPosY);// * screenRatio.y)+200;
@@ -115,7 +123,7 @@ class QTSensor
     
     //println(screenRatio);
 
-    depthImg.updatePixels();
+    //depthImg.updatePixels();
 
     curSpeed.x = (newPosX - curPosition.x) / 10.0;
     curSpeed.y = (newPosY - curPosition.y) / 10.0;
@@ -140,7 +148,7 @@ class QTSensor
 
        transformedPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
        transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
-       transformedPosition.z = constrain(map(curPosition.z,876,885,100,0),0,100);
+       transformedPosition.z = constrain(map(curPosition.z,minDepth,maxDepth,100,0),0,100);
        
        //ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
        
@@ -152,15 +160,15 @@ class QTSensor
        ;//ellipse(mouseX,mouseY , 50,50);
     }
 
-    //image(kinect.getDepthImage(),0,0);
+    //image(depthImg,0,0);
 
     stroke(255);
     fill(255,0,0);
-   // rect(prjX1,prjY1, prjX2 - prjX1 , prjY2 - prjY1);
+  //  rect(prjX1,prjY1, prjX2 - prjX1 , prjY2 - prjY1);
     
     fill(255);
     textSize(50);
-    text(transformedPosition.z,300,300);
+   // text(transformedPosition.z,300,300);
   }
 
   void keyPressed() 

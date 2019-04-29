@@ -41,6 +41,8 @@ void setup()
   println(width, height);
 
   background(0);
+  
+  noCursor();
 
   initDefaultData();
 }

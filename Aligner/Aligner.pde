@@ -18,8 +18,8 @@ Kinect kinect;
 // Depth image
 PImage depthImg;
 
-int minDepth = 870;
-int maxDepth = 950;
+int minDepth = 890;
+int maxDepth = 900;
 
 PVector textPos;
 
@@ -29,7 +29,7 @@ void setup()
 {
   //size(800,500,P2D);
 
-  fullScreen(P2D, 2);
+  fullScreen(P2D, 1);
 
   background(0);
 

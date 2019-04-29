@@ -17,8 +17,8 @@ class QTVisualizer2 {
   int closestCoord;
 
   void initDefaultData() {
-    originX = 200;
-    originY = 200;
+    originX = 490;
+    originY = 440;
     closestCoord=0;
     resolution = 20;
     maxPlace = 0;
@@ -44,7 +44,7 @@ class QTVisualizer2 {
     }
   }
   void update() {
-    stroke(0);
+    stroke(255);
     noFill();
     //fill(0);
     beginShape();
@@ -67,7 +67,7 @@ class QTVisualizer2 {
       float  distX = mousePos.x - locations[i].x;
       float distY = mousePos.y - locations[i].y;
 
-      stroke(255, 0, 0);
+      stroke(255);
       noFill();
 
       ellipse(locations[i].x, locations[i].y, 10, 10);
@@ -75,7 +75,7 @@ class QTVisualizer2 {
       // point(locations[i].x, locations[i].y);    
       locations[i].add(velocities[i]);
       
-      if ( dist[i] <20 ) {    
+      if ( dist[i] <100 ) {    
         if (minDist > dist[i])
         { 
           minDist = dist[i];
