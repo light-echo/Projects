@@ -123,7 +123,7 @@ class QTSensor
     
     //println(screenRatio);
 
-    //depthImg.updatePixels();
+    depthImg.updatePixels();
 
     curSpeed.x = (newPosX - curPosition.x) / 10.0;
     curSpeed.y = (newPosY - curPosition.y) / 10.0;
