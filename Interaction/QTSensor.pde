@@ -14,8 +14,8 @@ class QTSensor
 {
   PImage depthImg;
 
-  int minDepth =  840;
-  int maxDepth = 880;
+  int minDepth =  790;
+  int maxDepth = 840;
 
   int kinectX1, kinectX2, kinectY1, kinectY2;
   int prjX1, prjX2, prjY1, prjY2;
@@ -27,28 +27,16 @@ class QTSensor
   PVector transformedPosition;
 
   void initDefaultData()
-  {    
-    
-    /*
-    kinectX1 = 228;
-    kinectY1 = 110;
-    kinectX2 = 464;
-    kinectY2 = 290;
+  {        
+    kinectX1 = 157;
+    kinectY1 = 122;
+    kinectX2 = 431;
+    kinectY2 = 324;
 
-    prjX1 = 231;
-    prjY1 = 205;
-    prjX2 = 858;
-    prjY2 = 700;*/
-    
-    kinectX1 = 190;
-    kinectY1 = 130;
-    kinectX2 = 430;
-    kinectY2 = 290;
-
-    prjX1 = 150;
-    prjY1 = 70;
-    prjX2 = 1500;
-    prjY2 = 1080;
+    prjX1 = 0;
+    prjY1 = 0;
+    prjX2 = width;
+    prjY2 = height;
 
     curPosition = new PVector(0, 0, 0);
     curSpeed = new PVector(0, 0, 0);
@@ -116,7 +104,6 @@ class QTSensor
       }
     }
     
-    
     newPosX = int(newPosX);// * screenRatio.x)-70;
     newPosY = int(newPosY);// * screenRatio.y)+200;
     newPosZ = minData;
@@ -136,7 +123,7 @@ class QTSensor
   {
     fill(0, 20);
 
-    rect(0, 0, width, height);
+    //rect(0, 0, width, height);
 
     stroke(255);
 
@@ -150,7 +137,7 @@ class QTSensor
        transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
        transformedPosition.z = constrain(map(curPosition.z,minDepth,maxDepth,100,0),0,100);
        
-       //ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
+       ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
        
        myVisualizer.setPosition(transformedPosition);
        //myVisualizer_2.setPosition(transformedPosition);
@@ -168,7 +155,7 @@ class QTSensor
     
     fill(255);
     textSize(50);
-   // text(transformedPosition.z,300,300);
+    text(transformedPosition.z,300,300);
   }
 
   void keyPressed() 

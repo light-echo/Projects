@@ -50,15 +50,17 @@ class QTVisualizer2 {
     beginShape();
     curveVertex(-rad+originX, 0);
    
-    for (int i=0; i<counter; i++) {
+    for (int i=0; i<counter; i++) { //<>//
 
-      curveVertex(locations[i].x, locations[i].y);
+      curveVertex(locations[i].x, locations[i].y); //<>//
     }
     endShape(CLOSE);
   }
   void setPosition(PVector position) {
     mousePos.set(position);
     //mousePos.set( xPos, yPos);
+    
+    println(position);
 
     for (int i=0; i<counter; i++) {  
 
@@ -75,7 +77,7 @@ class QTVisualizer2 {
       // point(locations[i].x, locations[i].y);    
       locations[i].add(velocities[i]);
       
-      if ( dist[i] <100 ) {    
+      if ( dist[i] <50 ) {    
         if (minDist > dist[i])
         { 
           minDist = dist[i];

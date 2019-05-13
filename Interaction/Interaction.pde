@@ -109,7 +109,8 @@ void sendDummyPosition()
 {
   dummyPosition.set(mouseX, mouseY, dummyPosZ);
 
- // myVisualizer.setPosition(dummyPosition);
+  myVisualizer.setPosition(dummyPosition);
+  myVisualizer_2.setPosition(dummyPosition);
   myCommunicator.setPosition(dummyPosition);
 }
 
@@ -124,6 +125,7 @@ void draw()
 
   mySensor.update();
   myVisualizer.update();
+  //myVisualizer_2.update();
   myCommunicator.update();
 
   if (SIMULATION_MODE == true && simulatePosZ == true)

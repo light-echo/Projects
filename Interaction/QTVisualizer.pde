@@ -103,7 +103,7 @@ class Particle {
     
     fill(random(0,255),random(0,255),random(0,255), lifespan);
     
-    ellipse(position.x, position.y, 15*3, 15*3);
+    ellipse(position.x, position.y, 15, 15);
   }
 
   // Is the particle still useful?
