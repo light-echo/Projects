@@ -28,15 +28,18 @@ Kinect kinect;
 QTSensor mySensor;
 QTVisualizer myVisualizer;
 QTVisualizer2 myVisualizer_2;
+QTVisualizer_3 myVisualizer_3;
 QTCommunicator myCommunicator;
 
 PVector screenRatio;  // this is a aspec ratio between kinect sensor and projector
 
 void setup() 
 {
-  fullScreen(P2D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+  fullScreen(P3D); // please use this code for fully working test with projector. added by John. 28 Mar 2019
 
-  //size(640, 480); // please use this code for testing on your PC . added by John. 28 Mar 2019
+  colorMode(HSB, 360, 100, 100);
+
+  //size(640, 480,P3D); // please use this code for testing on your PC . added by John. 28 Mar 2019
 
   println(width, height);
 
@@ -76,11 +79,13 @@ void initDefaultData()
   mySensor = new QTSensor(); // even simulation mode , it's better to new QTSensor
   myVisualizer = new QTVisualizer();
   myVisualizer_2 = new QTVisualizer2();
+  myVisualizer_3 = new QTVisualizer_3();
   myCommunicator = new QTCommunicator();
 
   mySensor.initDefaultData();
   myVisualizer.initDefaultData();
   myVisualizer_2.initDefaultData();
+  myVisualizer_3.initDefaultData();
   myCommunicator.initDefaultData();
 }
 
@@ -111,27 +116,24 @@ void sendDummyPosition()
 
   myVisualizer.setPosition(dummyPosition);
   myVisualizer_2.setPosition(dummyPosition);
+  myVisualizer_3.setPosition(dummyPosition);
   myCommunicator.setPosition(dummyPosition);
 }
 
 void draw() 
 {
-  background(0);
+  background(340,100,100);
   
   //getting Amplitudes values from Olli
   float[] amplitudes = myCommunicator.getAmplitudes();
   //Function to send values 
   myVisualizer.setAmplitudes(amplitudes);
-
+  
   mySensor.update();
-  myVisualizer.update();
-  //myVisualizer_2.update();
-  myCommunicator.update();
+  
+  myVisualizer_3.update();
 
-  if (SIMULATION_MODE == true && simulatePosZ == true)
-  {
-    simulatePosition();
-  }
+  myCommunicator.update();
   
   fill(255,0,0);
  

@@ -14,13 +14,14 @@ class QTSensor
 {
   PImage depthImg;
 
-  int minDepth =  790;
+  int minDepth =  740;
   int maxDepth = 840;
 
   int kinectX1, kinectX2, kinectY1, kinectY2;
   int prjX1, prjX2, prjY1, prjY2;
 
   float angle;
+  float acc;
 
   PVector curPosition;
   PVector curSpeed;
@@ -28,15 +29,17 @@ class QTSensor
 
   void initDefaultData()
   {        
-    kinectX1 = 157;
-    kinectY1 = 122;
-    kinectX2 = 431;
-    kinectY2 = 324;
+    kinectX1 = 160;
+    kinectY1 = 107;
+    kinectX2 = 500;
+    kinectY2 = 304;
 
     prjX1 = 0;
     prjY1 = 0;
     prjX2 = width;
     prjY2 = height;
+    
+    acc = 20;
 
     curPosition = new PVector(0, 0, 0);
     curSpeed = new PVector(0, 0, 0);
@@ -52,6 +55,9 @@ class QTSensor
       angle = 0;
       depthImg = new PImage(width, height);
     }
+    
+    println("TEST  "+transform(kinectX1, kinectX1, kinectX2, prjX1, prjX2));
+    println("TEST  "+transform(kinectX2, kinectX1, kinectX2, prjX1, prjX2));
   }
 
   float transform(float input, float A, float B, float C, float D)
@@ -81,7 +87,7 @@ class QTSensor
       posX = (i % 640);
       posY = (i / 640);
 
-      if (posX > kinectX1 && posX < kinectX2 && posY > kinectY1 && posY < kinectY2)
+      if (posX >= kinectX1 && posX <= kinectX2 && posY >= kinectY1 && posY <= kinectY2)
       {
          depthImg.pixels[i] = color(255);
         
@@ -112,9 +118,9 @@ class QTSensor
 
     depthImg.updatePixels();
 
-    curSpeed.x = (newPosX - curPosition.x) / 10.0;
-    curSpeed.y = (newPosY - curPosition.y) / 10.0;
-    curSpeed.z = (newPosZ - curPosition.z) / 10.0;
+    curSpeed.x = (newPosX - curPosition.x) / acc;
+    curSpeed.y = (newPosY - curPosition.y) / acc;
+    curSpeed.z = (newPosZ - curPosition.z) / acc;
 
     curPosition.add(curSpeed);
   }
@@ -137,9 +143,24 @@ class QTSensor
        transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
        transformedPosition.z = constrain(map(curPosition.z,minDepth,maxDepth,100,0),0,100);
        
-       ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
+       //transformedPosition.set(mouseX, mouseY, 0);
        
-       myVisualizer.setPosition(transformedPosition);
+      // transformedPosition.set(478,438, 0);
+       
+       //ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
+       
+       //myVisualizer.setPosition(transformedPosition);
+       
+       //transformedPosition.x = mouseX+random(10,20);
+       //transformedPosition.y = mouseY+random(10,20);
+       
+       //transformedPosition.x = 550;
+       //transformedPosition.y 26328;
+       
+       myVisualizer_3.setPosition(transformedPosition);
+       
+      // println(transformedPosition);
+       
        //myVisualizer_2.setPosition(transformedPosition);
        myCommunicator.setPosition(transformedPosition);
     } else
@@ -155,7 +176,9 @@ class QTSensor
     
     fill(255);
     textSize(50);
-    text(transformedPosition.z,300,300);
+   // text(transformedPosition.z,300,300);
+    
+   // text((int)transformedPosition.x+" "+(int)transformedPosition.y,300,350);
   }
 
   void keyPressed() 

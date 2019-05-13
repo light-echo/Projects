@@ -44,7 +44,9 @@ class QTCommunicator
      * and the port of the remote location address are the same, hence you will
      * send messages back to this sketch.
      */
-    myRemoteLocation = new NetAddress("10.100.24.112", 3107); //port 3107
+   // myRemoteLocation = new NetAddress("10.100.58.244", 3107); //port 3107
+    
+    myRemoteLocation = new NetAddress("10.100.54.25", 3107); //port 3107
     println("its working");
   }
 
@@ -105,6 +107,6 @@ class QTCommunicator
   // Interactive module calls this everysingle frame
   void update()
   {
-    text("Received Value: "+A1+A2+A3+A4, 10, 20); // print receive value
+   ;// text("Received Value: "+A1+A2+A3+A4, 10, 20); // print receive value
   }
 }

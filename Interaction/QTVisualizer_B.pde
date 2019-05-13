@@ -50,9 +50,9 @@ class QTVisualizer2 {
     beginShape();
     curveVertex(-rad+originX, 0);
    
-    for (int i=0; i<counter; i++) { //<>//
+    for (int i=0; i<counter; i++) { //<>// //<>//
 
-      curveVertex(locations[i].x, locations[i].y); //<>//
+      curveVertex(locations[i].x, locations[i].y); //<>// //<>//
     }
     endShape(CLOSE);
   }
