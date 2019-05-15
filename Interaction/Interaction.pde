@@ -19,6 +19,7 @@ import org.openkinect.processing.*;
 
 int dummyPosZ;
 int dummyDirection;
+int distance;
 PVector dummyPosition;
 boolean SIMULATION_MODE = true;
 boolean simulatePosZ = false;
@@ -35,7 +36,7 @@ PVector screenRatio;  // this is a aspec ratio between kinect sensor and project
 
 void setup() 
 {
-  fullScreen(P3D); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+  fullScreen(P3D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
 
   colorMode(HSB, 360, 100, 100);
 
@@ -122,19 +123,20 @@ void sendDummyPosition()
 
 void draw() 
 {
-  background(340,100,100);
+  background(200+distance,0,0);
   
   //getting Amplitudes values from Olli
   float[] amplitudes = myCommunicator.getAmplitudes();
   //Function to send values 
   myVisualizer.setAmplitudes(amplitudes);
   
-  mySensor.update();
   
   myVisualizer_3.update();
 
   myCommunicator.update();
   
+  
+  mySensor.update();
   fill(255,0,0);
  
   //rect(230,160,660,520);
