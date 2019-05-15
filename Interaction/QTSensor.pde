@@ -142,21 +142,7 @@ class QTSensor
        transformedPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
        transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
        transformedPosition.z = constrain(map(curPosition.z,minDepth,maxDepth,100,0),0,100);
-       
-       //transformedPosition.set(mouseX, mouseY, 0);
-       
-      // transformedPosition.set(478,438, 0);
-       
-       //ellipse(transformedPosition.x, transformedPosition.y, 50, 50);
-       
-       //myVisualizer.setPosition(transformedPosition);
-       
-       //transformedPosition.x = mouseX+random(10,20);
-       //transformedPosition.y = mouseY+random(10,20);
-       
-       //transformedPosition.x = 550;
-       //transformedPosition.y 26328;
-       
+            
        myVisualizer_3.setPosition(transformedPosition);
        
       // println(transformedPosition);
