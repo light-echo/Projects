@@ -1,3 +1,6 @@
+int ORIGINAL_DIST = 80;
+
+
 class QTVisualizer_3 {
   PImage gradient;
   int numOfBlobs = 5;
@@ -102,7 +105,7 @@ class QTVisualizer_3 {
 class Blob {
   float resolution = 15, 
     nVal, 
-    rad = 200, 
+    rad = 150, 
     nInt =  random(0.1, 3), 
     nAmp = random(0.0, 1.0);
   float originX, originY;
@@ -135,10 +138,17 @@ class Blob {
     allDist = new float[valSize];
     position = new PVector(0, 0);
     minDist = 100;
+<<<<<<< HEAD
+    speed = 700;
+    startTime = new int[valSize];
+    numOfCoord = 0;
+    endTime = 60000;
+=======
     speed = 300;
     startTime = new int[valSize];
     numOfCoord = 0;
     endTime = 5000;
+>>>>>>> 136eff2f3aac672154341383a761c5b703a90a4a
   }
   void initiate() {
     for (float a=0; a<=TWO_PI; a+=TWO_PI/ (resolution-1)) {
@@ -159,7 +169,11 @@ class Blob {
 
     beginShape();
 
+<<<<<<< HEAD
+    fill(myColor+(distance/5.0), 44, 74);
+=======
     fill(myColor, 44, 74);
+>>>>>>> 136eff2f3aac672154341383a761c5b703a90a4a
 
     curveVertex(locations[numOfCoord-1].x, locations[numOfCoord-1].y);
 
@@ -186,6 +200,7 @@ class Blob {
   void updatePos(PVector position) {
     position.set( position);
 
+    minDist = (ORIGINAL_DIST + position.z);
 
     for (int i=0; i<numOfCoord; i++) {  
 
@@ -209,7 +224,7 @@ class Blob {
 
         velocities[i].set(distX/speed, distY/speed);
 
-        println(dist[i]);
+       // println(dist[i]);
       } else { 
         velocities[i].set(0, 0);
         // minDist = 50;
@@ -229,6 +244,7 @@ class Blob {
       }
     }
   }
+  
   void updateSpeed(int j, float distX, float distY) {
     for (int i = 0; i<numOfCoord; i++) {
       allDist[i] = locations[i].dist(locations[j]);
