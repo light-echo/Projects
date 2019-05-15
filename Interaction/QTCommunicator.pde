@@ -46,7 +46,10 @@ class QTCommunicator
      */
    // myRemoteLocation = new NetAddress("10.100.58.244", 3107); //port 3107
     
-    myRemoteLocation = new NetAddress("10.100.54.25", 3107); //port 3107
+   // myRemoteLocation = new NetAddress("127.0.0.1", 3107); //port 3107
+    
+    myRemoteLocation = new NetAddress("10.100.48.13", 3107); //port 3107
+    
     println("its working");
   }
 
@@ -65,7 +68,7 @@ class QTCommunicator
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);     
-    //println("QTCommunicator received the position "+posX, ","+posY);
+   // println("QTCommunicator received the position "+pos.x, ","+pos.y);
   }
 
 
