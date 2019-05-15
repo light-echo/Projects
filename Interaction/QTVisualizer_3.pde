@@ -1,6 +1,6 @@
 class QTVisualizer_3 {
   PImage gradient;
-  int numOfBlobs = 7;
+  int numOfBlobs = 5;
   Blob [] blobs = new Blob[numOfBlobs];
   PVector [] origin = new PVector [numOfBlobs];
   PVector pos;
@@ -10,7 +10,6 @@ class QTVisualizer_3 {
     
     int tempX,tempY;
 
-
     startColor = 120;
     
     tempX = 200;
@@ -18,7 +17,7 @@ class QTVisualizer_3 {
 
     for (int i=0; i<numOfBlobs; i++)
     {
-      origin[i] = new PVector(random(200, width-200), random(200, height-200));
+      origin[i] = new PVector(random(100, width-200), random(100, height-200));
     }
     
     
@@ -44,24 +43,20 @@ class QTVisualizer_3 {
 
     for (int i = 0; i<numOfBlobs; i++) {
 
-      if ( (i % 4) ==0)
-      {
-        blobs[i] = new Blob(origin[i], startColor-90+(i*8));
-      } else {
-        blobs[i] = new Blob(origin[i], startColor+(i*8));
-      }
+      //if ( (i % 4) ==0)
+      //{
+      // blobs[i] = new Blob(origin[i], startColor-90+(i*8));
+      //} else {
+        blobs[i] = new Blob(origin[i], startColor+(i*8)); //
+     // }
 
       blobs[i].initiate();
     }
   }
 
   void update() {
-    // background(0);
-
-
     drawGradient();
     
-   // image(gradient, 0, 0);
     for (Blob b : blobs) {
       b.display();
       b.returnToOriginal();
@@ -84,9 +79,9 @@ class QTVisualizer_3 {
 
     noStroke();
     
-    fill(300,100,100,50);
+    fill(250,100,100,50);
     
-    ellipse(this.pos.x, this.pos.y, 300, 300);
+    ellipse(this.pos.x, this.pos.y, 50, 50);
 
 
 
@@ -105,7 +100,7 @@ class QTVisualizer_3 {
 }
 
 class Blob {
-  float resolution = 20, 
+  float resolution = 15, 
     nVal, 
     rad = 200, 
     nInt =  random(0.1, 3), 
@@ -126,6 +121,7 @@ class Blob {
   float n;
   int myColor;
   boolean randVal = true;
+  int endTime;
 
   Blob(PVector o, int myColor) {
     this.originX = o.x;
@@ -139,9 +135,10 @@ class Blob {
     allDist = new float[valSize];
     position = new PVector(0, 0);
     minDist = 100;
-    speed = 100;
+    speed = 300;
     startTime = new int[valSize];
     numOfCoord = 0;
+    endTime = 5000;
   }
   void initiate() {
     for (float a=0; a<=TWO_PI; a+=TWO_PI/ (resolution-1)) {
@@ -162,7 +159,7 @@ class Blob {
 
     beginShape();
 
-    fill(myColor, 100, 100);
+    fill(myColor, 44, 74);
 
     curveVertex(locations[numOfCoord-1].x, locations[numOfCoord-1].y);
 
@@ -205,23 +202,6 @@ class Blob {
 
       locations[i].add(velocities[i]);
 
-      //if ( dist[i] <50 ) {   
-      //  startTime[i] = millis();
-      //  if (minDist > dist[i])
-      //  { 
-      //    minDist = dist[i];
-      //    j = i;
-      //    println(j);
-      //    updateSpeed(j, distX, distY);
-      //  }
-      //  velocities[j].set(distX/7, distY/7);
-      //} else { 
-      //  ;//velocities[i].set(0, 0);
-      //  minDist = 50;
-      //}
-
-
-
       if ( dist[i] <minDist ) {   
         startTime[i] = millis();
 
@@ -241,7 +221,7 @@ class Blob {
     for (int i=0; i<numOfCoord; i++) {
       float distOX = originalLoc[i].x-locations[i].x;
       float distOY = originalLoc[i].y-locations[i].y;
-      if (velocities[i].x==0 && velocities[i].y==0 && millis()-startTime[i]>5000) { //velocities[i].x==0 && velocities[i].y==0 &&
+      if (velocities[i].x==0 && velocities[i].y==0 && millis()-startTime[i]>endTime) { //velocities[i].x==0 && velocities[i].y==0 &&
         if (locations[i]!=originalLoc[i]) {
           //println("speed");
           velocities[i].set(distOX/30, distOY/30);
@@ -252,7 +232,7 @@ class Blob {
   void updateSpeed(int j, float distX, float distY) {
     for (int i = 0; i<numOfCoord; i++) {
       allDist[i] = locations[i].dist(locations[j]);
-      velocities[i].set(distX/(allDist[i]*0.5), distY*2/(allDist[i]*0.5));
+      velocities[i].set(distX/(allDist[i]*0.5), distY/(allDist[i]*0.5));
     }
   }
 }
