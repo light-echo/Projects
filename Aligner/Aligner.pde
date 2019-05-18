@@ -8,7 +8,7 @@
   //
   /////////////////////////////////////////////////////////////////////////
   
-  
+
   
   import org.openkinect.freenect.*;
   import org.openkinect.processing.*;
