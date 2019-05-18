@@ -16,6 +16,7 @@ import netP5.*;
 import oscP5.*;
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
+import processing.video.*;
 
 int dummyPosZ;
 int dummyDirection;
@@ -24,11 +25,11 @@ PVector dummyPosition;
 boolean SIMULATION_MODE = true;
 boolean simulatePosZ = false;
 int MAX_POSZ = 100; // [002] added by John.
+int SCREEN_SAVING =  2 * 60 * 1000; // in milli seconds
+Movie screenSaver;
 
 Kinect kinect;
 QTSensor mySensor;
-QTVisualizer myVisualizer;
-QTVisualizer2 myVisualizer_2;
 QTVisualizer_3 myVisualizer_3;
 QTCommunicator myCommunicator;
 
@@ -36,8 +37,10 @@ PVector screenRatio;  // this is a aspec ratio between kinect sensor and project
 
 void setup() 
 {
-  fullScreen(P3D,2); // please use this code for fully working test with projector. added by John. 28 Mar 2019
+  fullScreen(P3D,1); // please use this code for fully working test with projector. added by John. 28 Mar 2019
 
+  //size(600,480,P3D);
+  
   colorMode(HSB, 360, 100, 100);
 
   //size(640, 480,P3D); // please use this code for testing on your PC . added by John. 28 Mar 2019
@@ -53,6 +56,8 @@ void setup()
 
 void initDefaultData()
 {
+  screenSaver = new Movie(this, "screensaver.mp4");
+    
   dummyPosition = new PVector(0, 0, 0);
   dummyPosZ = 0;
   dummyDirection = 1;
@@ -78,14 +83,10 @@ void initDefaultData()
   }
 
   mySensor = new QTSensor(); // even simulation mode , it's better to new QTSensor
-  myVisualizer = new QTVisualizer();
-  myVisualizer_2 = new QTVisualizer2();
   myVisualizer_3 = new QTVisualizer_3();
   myCommunicator = new QTCommunicator();
 
   mySensor.initDefaultData();
-  myVisualizer.initDefaultData();
-  myVisualizer_2.initDefaultData();
   myVisualizer_3.initDefaultData();
   myCommunicator.initDefaultData();
 }
@@ -115,8 +116,6 @@ void sendDummyPosition()
 {
   dummyPosition.set(mouseX, mouseY, dummyPosZ);
 
-  myVisualizer.setPosition(dummyPosition);
-  myVisualizer_2.setPosition(dummyPosition);
   myVisualizer_3.setPosition(dummyPosition);
   myCommunicator.setPosition(dummyPosition);
 }
@@ -126,21 +125,23 @@ void draw()
   background(200+distance,0,0);
   
   //getting Amplitudes values from Olli
-  float[] amplitudes = myCommunicator.getAmplitudes();
+  //float[] amplitudes = myCommunicator.getAmplitudes();
   //Function to send values 
-  myVisualizer.setAmplitudes(amplitudes);
-  
   
   myVisualizer_3.update();
 
   myCommunicator.update();
   
-  
   mySensor.update();
+  
   fill(255,0,0);
  
   //rect(230,160,660,520);
 }
+
+  void movieEvent(Movie m) {
+    m.read();
+  }
 
 void mouseMoved()
 {

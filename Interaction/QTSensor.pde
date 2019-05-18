@@ -14,8 +14,11 @@ class QTSensor
 {
   PImage depthImg;
 
-  int minDepth =  740;
-  int maxDepth = 840;
+  boolean isSleepMode;
+
+  int currentMillis;
+  int minDepth =  870;
+  int maxDepth = 920;
 
   int kinectX1, kinectX2, kinectY1, kinectY2;
   int prjX1, prjX2, prjY1, prjY2;
@@ -29,21 +32,25 @@ class QTSensor
 
   void initDefaultData()
   {        
-    kinectX1 = 160;
-    kinectY1 = 107;
-    kinectX2 = 500;
-    kinectY2 = 304;
+    isSleepMode = false;
+
+    currentMillis = millis();
+
+    kinectX1 = 180;
+    kinectY1 = 76;
+    kinectX2 = 410;
+    kinectY2 = 270;
 
     prjX1 = 0;
     prjY1 = 0;
     prjX2 = width;
     prjY2 = height;
-    
+
     acc = 20;
 
     curPosition = new PVector(0, 0, 0);
     curSpeed = new PVector(0, 0, 0);
-    transformedPosition = new PVector(0,0,0);
+    transformedPosition = new PVector(0, 0, 0);
 
     if (SIMULATION_MODE == false)
     {
@@ -55,7 +62,7 @@ class QTSensor
       angle = 0;
       depthImg = new PImage(width, height);
     }
-    
+
     println("TEST  "+transform(kinectX1, kinectX1, kinectX2, prjX1, prjX2));
     println("TEST  "+transform(kinectX2, kinectX1, kinectX2, prjX1, prjX2));
   }
@@ -89,13 +96,13 @@ class QTSensor
 
       if (posX >= kinectX1 && posX <= kinectX2 && posY >= kinectY1 && posY <= kinectY2)
       {
-         depthImg.pixels[i] = color(255);
-        
+        depthImg.pixels[i] = 100+(int)constrain(map(rawDepth[i], minDepth, maxDepth, 100, 0), 0, 100);
+
         //println(newPosX, " , "+newPosY+ " "+rawDepth[i]);
-        
+
         if (rawDepth[i] >= minDepth && rawDepth[i] <= maxDepth) 
         {
-           depthImg.pixels[i] = color(255);
+          depthImg.pixels[i] = color(255);
 
           if (rawDepth[i] < minData)
           {
@@ -104,16 +111,16 @@ class QTSensor
             newPosX = i % 640;
             newPosY = i/640;
 
-           // println(newPosX, " , "+minData);
+            // println(newPosX, " , "+minData);
           }
-        } 
+        }
       }
     }
-    
+
     newPosX = int(newPosX);// * screenRatio.x)-70;
     newPosY = int(newPosY);// * screenRatio.y)+200;
     newPosZ = minData;
-    
+
     //println(screenRatio);
 
     depthImg.updatePixels();
@@ -137,34 +144,65 @@ class QTSensor
 
     if (SIMULATION_MODE == false)
     {
-       traceMovement();
+      traceMovement();
 
-       transformedPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
-       transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
-       transformedPosition.z = constrain(map(curPosition.z,minDepth,maxDepth,100,0),0,100);
-            
-       myVisualizer_3.setPosition(transformedPosition);
-       
-      // println(transformedPosition);
-       
-       //myVisualizer_2.setPosition(transformedPosition);
-       myCommunicator.setPosition(transformedPosition);
+      transformedPosition.x = transform(curPosition.x, kinectX1, kinectX2, prjX1, prjX2);
+      transformedPosition.y = transform(curPosition.y, kinectY1, kinectY2, prjY1, prjY2);
+      transformedPosition.z = constrain(map(curPosition.z, minDepth, maxDepth, 100, 0), 0, 100);
+
+      if (isSleepMode == false)
+      {
+        myVisualizer_3.setPosition(transformedPosition);
+        myCommunicator.setPosition(transformedPosition);
+        ellipse(transformedPosition.x,transformedPosition.y , 50,50);
+      }
+
+      if (transformedPosition.z != 0)
+      {
+        if (isSleepMode == true) {
+          myVisualizer_3.wakeUp();
+          
+          println("Should wake-up");
+
+          isSleepMode = false;
+        }
+
+        currentMillis = millis();
+      }
     } else
     {
-       ;//ellipse(mouseX,mouseY , 50,50);
+      ;//ellipse(mouseX,mouseY , 50,50);
     }
 
     //image(depthImg,0,0);
 
     stroke(255);
-    fill(255,0,0);
-  //  rect(prjX1,prjY1, prjX2 - prjX1 , prjY2 - prjY1);
-    
+    fill(255, 0, 0);
+    //  rect(prjX1,prjY1, prjX2 - prjX1 , prjY2 - prjY1);
+
     fill(255);
     textSize(50);
-   // text(transformedPosition.z,300,300);
-    
-   // text((int)transformedPosition.x+" "+(int)transformedPosition.y,300,350);
+    text(transformedPosition.z,300,300);
+
+    // text((int)transformedPosition.x+" "+(int)transformedPosition.y,300,350);
+
+    checkForSleep();
+  }
+
+  void checkForSleep()
+  {
+    int time;
+
+    time = (millis() - currentMillis);
+
+    if (time > SCREEN_SAVING && isSleepMode == false) {
+
+      myVisualizer_3.goToSleep();
+     
+     isSleepMode = true;
+
+      println("Should sleep");
+    }
   }
 
   void keyPressed() 
