@@ -48,7 +48,7 @@ class QTCommunicator
     
    // myRemoteLocation = new NetAddress("127.0.0.1", 3107); //port 3107
     
-    myRemoteLocation = new NetAddress("10.100.48.13", 3107); //port 3107
+    myRemoteLocation = new NetAddress("10.100.31.95", 3107); //port 3107
     
     println("its working");
   }
