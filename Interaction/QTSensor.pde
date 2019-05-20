@@ -36,10 +36,10 @@ class QTSensor
 
     currentMillis = millis();
 
-    kinectX1 = 180;
-    kinectY1 = 76;
-    kinectX2 = 410;
-    kinectY2 = 270;
+    kinectX1 = 225;
+    kinectY1 = 65;
+    kinectX2 = 480;
+    kinectY2 = 280;
 
     prjX1 = 0;
     prjY1 = 0;
@@ -174,7 +174,7 @@ class QTSensor
       ;//ellipse(mouseX,mouseY , 50,50);
     }
 
-    //image(depthImg,0,0);
+    image(depthImg,0,0);
 
     stroke(255);
     fill(255, 0, 0);
