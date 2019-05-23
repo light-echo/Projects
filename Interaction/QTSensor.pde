@@ -174,7 +174,7 @@ class QTSensor
       ;//ellipse(mouseX,mouseY , 50,50);
     }
 
-    //image(depthImg,0,0);
+    image(depthImg,0,0);
 
     stroke(255);
     fill(255, 0, 0);
